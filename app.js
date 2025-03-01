@@ -73,7 +73,7 @@ function takeCommand(message) {
     }else if (message.includes("namaste")) {
         speak("Nameste Sir, How May I Help You?");
     } else if (message.includes('who am i?') || message.includes('who is your master?') || message.includes("who created you?")) {
-        speak("You are kunal agrawal,my master, who created me.");
+        speak("You are Manvender Singh,my master, who created me.");
     } else if (message.includes("open google")) {
         window.open("https://google.com", "_blank");
         speak("Opening Google...");
