@@ -7,7 +7,7 @@ const content = document.querySelector('.content');
 function speak(text) {
     const text_speak = new SpeechSynthesisUtterance(text);
     
-    text_speak.rate = 1;
+    text_speak.rate = 0.8;
     text_speak.volume = 1;
     text_speak.pitch = 0.5;
     
@@ -65,14 +65,20 @@ recognition.onresult = (event) => {
     content.textContent = transcript;
     takeCommand(transcript.toLowerCase());
     cancel.style.display = "none"
+    btn.style.display = "block"
+
+   
 };
 
 function takeCommand(message) {
     if (message.includes('hey') || message.includes('hello')) {
         speak("Hello Sir, How May I Help You?");
-    }else if (message.includes("namaste")) {
+    }else if(message.includes("who is manvender") || message.includes("manv") ||  message.includes("manvender")){
+        speak("he is my master his nick name is Manv daddy")
+
+    } else if (message.includes("namaste")) {
         speak("Nameste Sir, How May I Help You?");
-    } else if (message.includes('who am i?') || message.includes('who is your master?') || message.includes("who created you?")) {
+    } else if (message.includes('who am i ') || message.includes('who is your master?') || message.includes("who created you?")) {
         speak("You are Manvender Singh,my master, who created me.");
     } else if (message.includes("open google")) {
         window.open("https://google.com", "_blank");
