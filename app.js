@@ -91,21 +91,46 @@ sendbtn.addEventListener("click", () => {
 function sendResp() {
     const input = content.value
     takeCommand(input.toLowerCase())
+    ironman.style.display = "none"
+    descrip.style.display = "none"
+    input.style.display = "none"
+    cancel.style.display = "none"
+    btn.style.display = "block"
+
 }
-let triviaQuestions = [
-    { question: "What is the capital of France?", answer: "paris" },
-    { question: "Who wrote Harry Potter?", answer: "jk rowling" },
-    { question: "How many continents are there?", answer: "7" },
-];
+
 
 function takeCommand(message) {
     const greeting = ["Hello Sir, How May I Help You?", "Hi there! What can I do for you?", "Hey, how’s your day going?"]
+    let triviaQuestions = [
+        { question: "What is the capital of France?", answer: "paris" },
+        { question: "Who wrote Harry Potter?", answer: "jk rowling" },
+        { question: "How many continents are there?", answer: "7" },
+    ];
+    
+    let currentQuestion = triviaQuestions[Math.floor(Math.random() * triviaQuestions.length)];
     if (message.includes('hey') || message.includes('hello')) {
         const index = Math.floor(Math.random() * greeting.length)
         const response = greeting[index]
         speak(response);
         resultArea.innerHTML = response;
-    } else if (message.includes("who is manvender") || message.includes("manv") || message.includes("manvender")) {
+        content.innerHTML= ""
+    }else if(message.includes("quiz")){
+          const index = Math.floor(Math.random()*triviaQuestions.length)
+          const currentQuestion = triviaQuestions[index]
+          speak(currentQuestion.question)
+          resultArea.innerHTML = currentQuestion.question
+
+          if (content.value== currentQuestion.answer) {
+            speak("it is a correct answer")
+            resultArea +=`<br> ${currentQuestion.answer},it is a correct answer ` 
+            
+          }else
+            speak("it is a wrong answer")
+            resultArea +=`<br> ${currentQuestion.answer},it is a wrong answer ` 
+          
+    }
+     else if (message.includes("who is manvender") || message.includes("manv") || message.includes("manvender")) {
         speak("he is my master who created me")
         resultArea.innerHTML = "he is my master who created me"
 
