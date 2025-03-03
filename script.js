@@ -50,8 +50,11 @@ btn.addEventListener('click', () => {
 function takeCommand(message) {
     if (message.includes('hey') || message.includes('hello')) {
         speak("Hello Sir, How May I Help You?");
-    } else if (message.includes('who am i?') || message.includes('who is your master?') ||  message.includes("who created you?")) {
-        speak("You are kunal agrawal,my master, who created me.");      
+    }  else if (message.includes("play music") || message.includes("music") || message.includes("play song") || message.includes("play gaana")) {
+        window.open("https://www.youtube.com/watch?v=RgKAFK5djSk&list=PLeCdlPO-XhWFzEVynMsmosfdRsIZXhZi0&ab_channel=WizKhalifaMusic", "_blank");
+        speak("opening youtube... to play your song")
+    } else if (message.includes('who am i?') || message.includes('who is your master?') || message.includes("who created you?")) {
+        speak("You are kunal agrawal,my master, who created me.");
     } else if (message.includes("open google")) {
         window.open("https://google.com", "_blank");
         speak("Opening Google...");
@@ -61,14 +64,7 @@ function takeCommand(message) {
     } else if (message.includes("open facebook")) {
         window.open("https://facebook.com", "_blank");
         speak("Opening Facebook...");
-    }     else if (message.includes('what is') || message.includes('who is') || message.includes('what are')) {
-        window.open(`https://www.google.com/search?q=${message.replace(" ", "+")}`, "_blank");
-        const finalText = "This is what I found on the internet regarding " + message;
-        speak(finalText);
-    } else if (message.includes('wikipedia')) {
-        window.open(`https://en.wikipedia.org/wiki/${message.replace("wikipedia", "").trim()}`, "_blank");
-        const finalText = "This is what I found on Wikipedia regarding " + message;
-        speak(finalText);
+    
     } else if (message.includes('time')) {
         const time = new Date().toLocaleString(undefined, { hour: "numeric", minute: "numeric" });
         const finalText = "The current time is " + time;
@@ -81,13 +77,9 @@ function takeCommand(message) {
         window.open('Calculator:///');
         const finalText = "Opening Calculator";
         speak(finalText);
-    }  else if (message.includes('wordpad')) {
-            window.open('WordPad:///');
-            const finalText = 'Opening Word Pad';
-            speak(finalText);    
-    } else {
-        window.open(`https://www.google.com/search?q=${message.replace(" ", "+")}`, "_blank");
-        const finalText = "I found some information for " + message + " on Google";
+    } else if (message.includes('wordpad')) {
+        window.open('WordPad:///');
+        const finalText = 'Opening Word Pad';
         speak(finalText);
-    }
+    } 
 }
