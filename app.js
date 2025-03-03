@@ -10,11 +10,11 @@ resultArea.style.color = "blue"
 
 function speak(text) {
     const text_speak = new SpeechSynthesisUtterance(text);
-    
+
     text_speak.rate = 0.8;
     text_speak.volume = 2;
     text_speak.pitch = 0.5;
-    
+
     // var msg = new SpeechSynthesisUtterance();
     // var voices = window.speechSynthesis.getVoices();
     // text_speak.voice = voices[0];
@@ -63,37 +63,54 @@ btn.addEventListener("click", () => {
 })
 cancel.addEventListener("click", () => {
     recognition.stop()
-     ironman.style.display = "block"
+    ironman.style.display = "block"
     input.style.display = "none"
     btn.style.display = "block"
     descrip.style.display = "block"
+    content.placeholder = "Enter your command or speak "
 
     cancel.style.display = "none"
 })
 recognition.onresult = (event) => {
     const currentIndex = event.resultIndex;
     const transcript = event.results[currentIndex][0].transcript;
-    content.textContent = transcript;
+    content.placeholder = transcript;
     takeCommand(transcript.toLowerCase());
-      ironman.style.display = "none"
-      descrip.style.display = "none"
+    ironman.style.display = "none"
+    descrip.style.display = "none"
     input.style.display = "none"
     cancel.style.display = "none"
     btn.style.display = "block"
 
-   
+
 };
+sendbtn.addEventListener("click", () => {
+    sendResp()
+})
+
+function sendResp() {
+    const input = content.value
+    takeCommand(input.toLowerCase())
+}
+let triviaQuestions = [
+    { question: "What is the capital of France?", answer: "paris" },
+    { question: "Who wrote Harry Potter?", answer: "jk rowling" },
+    { question: "How many continents are there?", answer: "7" },
+];
 
 function takeCommand(message) {
+    const greeting = ["Hello Sir, How May I Help You?", "Hi there! What can I do for you?", "Hey, how’s your day going?"]
     if (message.includes('hey') || message.includes('hello')) {
-        speak("Hello Sir, How May I Help You?");
-        resultArea.innerHTML = "Hello Sir, How May I Help You?";
-    }else if(message.includes("who is manvender") || message.includes("manv") ||  message.includes("manvender")){
-        speak("he is my master his nick name is Manv daddy")
-        resultArea.innerHTML = "he is my master his nick name is Manv daddy"
+        const index = Math.floor(Math.random() * greeting.length)
+        const response = greeting[index]
+        speak(response);
+        resultArea.innerHTML = response;
+    } else if (message.includes("who is manvender") || message.includes("manv") || message.includes("manvender")) {
+        speak("he is my master who created me")
+        resultArea.innerHTML = "he is my master who created me"
 
 
-    }  else if (message.includes("play music") || message.includes("music") || message.includes("play song") || message.includes("play gaana")) {
+    } else if (message.includes("play music") || message.includes("music") || message.includes("play song") || message.includes("play gaana")) {
         window.open("https://www.youtube.com/watch?v=RgKAFK5djSk&list=PLeCdlPO-XhWFzEVynMsmosfdRsIZXhZi0&ab_channel=WizKhalifaMusic", "_blank");
         speak("opening youtube... to play your song")
     }
@@ -136,26 +153,65 @@ function takeCommand(message) {
         speak(finalText);
     } else if (message.includes("tell me a joke") || message.includes("joke")) {
         fetch('https://official-joke-api.appspot.com/jokes/ten')
-        .then(response => response.json())
-        .then(data => 
-            {const randomIndex = Math.floor(Math.random() * data.length) 
+            .then(response => response.json())
+            .then(data => {
+                const randomIndex = Math.floor(Math.random() * data.length)
                 const randomjoke = data[randomIndex]
                 speak(randomjoke.setup)
-                speak(randomjoke.punchline)
-                resultArea.innerHTML =randomjoke.setup + " " + randomjoke.punchline
-             }
-        );
-    }else {
+                resultArea.innerHTML = randomjoke.setup
+                setTimeout(() => {
+                    speak(randomjoke.punchline)
+                    resultArea.innerHTML += `<br> ${randomjoke.punchline}`;
+                }, 2000);
+
+            }
+            );
+    } else if (message.includes("tell me a fact") || message.includes("random fact") || message.includes("fact")) {
+        fetch('https://uselessfacts.jsph.pl/random.json?language=en')
+            .then(response => response.json())
+            .then(data => {
+                const result = data
+                speak(result.text);
+                resultArea.innerHTML = result.text;
+            });
+    }else if (message.includes("who are you") || message.includes("tell me about yourself")) {
+        let responses = [
+            "I am your personal assistant, always ready to help you!",
+            "I am an AI designed by Manvender, here to assist you!",
+            "I am Jarvis, but not as cool as Tony Stark’s version!"
+        ];
+        let response = responses[Math.floor(Math.random() * responses.length)];
+        speak(response);
+        resultArea.innerHTML = response;
+    }else if (message.includes("play rock paper scissors")) {
+        let choices = ["rock", "paper", "scissors"];
+        let userChoice = message.split(" ").pop(); // Extract user's choice
+        let aiChoice = choices[Math.floor(Math.random() * choices.length)];
+    
+        let result = "";
+        if (userChoice === aiChoice) {
+            result = "It's a tie!";
+        } else if (
+            (userChoice === "rock" && aiChoice === "scissors") ||
+            (userChoice === "paper" && aiChoice === "rock") ||
+            (userChoice === "scissors" && aiChoice === "paper")
+        ) {
+            result = `You win! I chose ${aiChoice}.`;
+        } else {
+            result = `I win! I chose ${aiChoice}.`;
+        }
+    
+        speak(result);
+        resultArea.innerHTML = result;
+    }
+    else {
         window.open(`https://www.google.com/search?q=${message.replace(" ", "+")}`, "_blank");
         const finalText = "I found some information for " + message + " on Google";
         speak(finalText);
     }
 }
+const checkbox = document.getElementById("checkbox")
+checkbox.addEventListener("change", () => {
+    document.body.classList.toggle("dark")
+})
 
-// send-btn.addEventListener("click",()=>{
-//     sendResp()
-// })
-
-// function sendResp() {
-    
-// }
